@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog & News | Youth Empowerment Rwanda</title>
+  <link rel="stylesheet" href="c:\Users\Happy\Desktop\Frontend Exam\files\cssfiles\style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .blog-layout { display:grid; grid-template-columns:1fr 320px; gap:56px; align-items:start; }
+    .blog-grid { display:grid; gap:32px; }
+    .blog-card { background:var(--white); border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow); transition:var(--transition); display:grid; grid-template-columns:280px 1fr; }
+    .blog-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-hover); }
+    .blog-card-img { overflow:hidden; }
+    .blog-card-img img { width:100%; height:100%; object-fit:cover; transition:var(--transition); }
+    .blog-card:hover .blog-card-img img { transform:scale(1.06); }
+    .blog-card-body { padding:28px; display:flex; flex-direction:column; justify-content:space-between; }
+    .blog-meta { display:flex; align-items:center; gap:16px; margin-bottom:12px; flex-wrap:wrap; }
+    .blog-tag { background:var(--primary-light); color:var(--primary); font-size:0.75rem; font-weight:700; padding:3px 12px; border-radius:50px; }
+    .blog-date { color:var(--text-muted); font-size:0.8rem; display:flex; align-items:center; gap:6px; }
+    .blog-card-body h3 { font-family:var(--font-display); font-size:1.2rem; color:var(--text); margin-bottom:10px; line-height:1.4; }
+    .blog-card-body p { color:var(--text-muted); font-size:0.9rem; line-height:1.7; margin-bottom:16px; }
+    .blog-author { display:flex; align-items:center; gap:10px; }
+    .blog-author img { width:36px; height:36px; border-radius:50%; object-fit:cover; }
+    .blog-author span { font-size:0.82rem; font-weight:600; color:var(--text-muted); }
+
+    /* Featured post */
+    .featured-post { background:var(--white); border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow); margin-bottom:32px; }
+    .featured-post-img { position:relative; }
+    .featured-post-img img { width:100%; height:320px; object-fit:cover; }
+    .featured-badge { position:absolute; top:20px; left:20px; background:var(--accent); color:#fff; font-size:0.75rem; font-weight:700; padding:4px 14px; border-radius:50px; }
+    .featured-post-body { padding:32px; }
+    .featured-post-body h2 { font-family:var(--font-display); font-size:1.6rem; color:var(--text); margin-bottom:12px; line-height:1.3; }
+    .featured-post-body p { color:var(--text-muted); line-height:1.8; margin-bottom:20px; }
+
+    /* Sidebar */
+    .sidebar-widget { background:var(--white); border-radius:var(--radius-lg); padding:24px; box-shadow:var(--shadow); margin-bottom:24px; }
+    .widget-title { font-family:var(--font-display); font-size:1.1rem; color:var(--text); margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid var(--border); }
+    .category-list { display:flex; flex-direction:column; gap:10px; }
+    .category-item { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border); transition:var(--transition); cursor:pointer; }
+    .category-item:last-child { border:none; }
+    .category-item:hover { color:var(--primary); padding-left:4px; }
+    .cat-count { background:var(--primary-light); color:var(--primary); font-size:0.75rem; font-weight:700; padding:2px 10px; border-radius:50px; }
+    .recent-post { display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
+    .recent-post:last-child { border:none; }
+    .recent-post img { width:60px; height:60px; border-radius:var(--radius); object-fit:cover; flex-shrink:0; }
+    .recent-post-info h5 { font-size:0.85rem; color:var(--text); font-weight:600; margin-bottom:4px; line-height:1.4; }
+    .recent-post-info span { font-size:0.75rem; color:var(--text-muted); }
+
+    .clock-widget { background:linear-gradient(135deg, var(--primary), var(--primary-dark)); color:#fff; border-radius:var(--radius-lg); padding:24px; text-align:center; }
+    .clock-widget h4 { font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; opacity:0.8; margin-bottom:8px; }
+    #liveClock { font-family:var(--font-display); font-size:0.9rem; color:#fff; line-height:1.5; }
+    #dynamicGreeting { font-size:1.1rem; font-weight:700; margin-top:8px; }
+
+    .pagination { display:flex; gap:8px; justify-content:center; margin-top:40px; }
+    .page-btn { width:40px; height:40px; border-radius:50%; border:2px solid var(--border); background:none; font-weight:600; cursor:pointer; transition:var(--transition); display:flex; align-items:center; justify-content:center; color:var(--text-muted); }
+    .page-btn.active, .page-btn:hover { background:var(--primary); border-color:var(--primary); color:#fff; }
+
+    @media(max-width:1024px){ .blog-layout{grid-template-columns:1fr;} }
+    @media(max-width:768px){ .blog-card{grid-template-columns:1fr;} .blog-card-img{height:200px;} }
+  </style>
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo" style="color:var(--text)"><span class="logo-icon">✦</span><span class="logo-text">YE<span class="accent">Rwanda</span></span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="programs.html">Programs</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="blog.html" class="active">Blog</a></li><li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon" id="themeIcon"></i></button>
+      <a href="contact.html" class="btn-donate">Get Involved</a>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-bg">
+    <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1600&q=80" alt="Blog" />
+  </div>
+  <div class="container page-hero-content">
+    <div class="section-label">Stay Informed</div>
+    <h1>News & Stories</h1>
+    <p>Updates, success stories, announcements, and insights from Youth Empowerment Rwanda.</p>
+    <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span>Blog</span></div>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="blog-layout">
+      <!-- MAIN CONTENT -->
+      <main>
+        <!-- Featured Post -->
+        <div class="featured-post">
+          <div class="featured-post-img">
+            <img src="https://images.unsplash.com/photo-1497493292307-31c376b6e479?w=1000&q=80" alt="Summit" />
+            <span class="featured-badge">⭐ Featured Story</span>
+          </div>
+          <div class="featured-post-body">
+            <div class="blog-meta">
+              <span class="blog-tag">Events</span>
+              <span class="blog-date"><i class="fas fa-calendar"></i> November 15, 2024</span>
+            </div>
+            <h2>YER Annual Youth Summit 2024 — Over 500 Young Leaders Convene in Kigali</h2>
+            <p>This year's Annual Youth Summit brought together over 500 young leaders from Rwanda's 30 districts for two days of workshops, networking, and collaborative action planning. The theme — "Rise: Building Rwanda's Future Together" — resonated deeply with participants who shared stories of transformation and set ambitious goals for the year ahead.</p>
+            <div class="blog-author">
+              <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\image 3.jpeg" alt="Author" />
+              <span>By happy — Programs Director</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blog Posts -->
+        <div class="blog-grid">
+          <article class="blog-card">
+            <div class="blog-card-img">
+              <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=600&q=80" alt="Digital Cohort" />
+            </div>
+            <div class="blog-card-body">
+              <div>
+                <div class="blog-meta"><span class="blog-tag">Programs</span><span class="blog-date"><i class="fas fa-calendar"></i> Oct 28, 2024</span></div>
+                <h3>New Digital Skills Cohort Opens — 200 Spots Available for Q1 2025</h3>
+                <p>We are excited to announce the opening of applications for our 8th Digital Skills Hub cohort. This round includes new tracks in AI tools, mobile development, and digital marketing for the East African market.</p>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div class="blog-author"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&q=80" alt="Author" /><span>Claude Nkurunziza</span></div>
+                <a href="#" class="card-link">Read More <i class="fas fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-card-img">
+              <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&q=80" alt="Partnership" />
+            </div>
+            <div class="blog-card-body">
+              <div>
+                <div class="blog-meta"><span class="blog-tag">Partnership</span><span class="blog-date"><i class="fas fa-calendar"></i> Oct 10, 2024</span></div>
+                <h3>YER Partners with Ministry of Youth for National Rollout Program in 2025</h3>
+                <p>In a landmark signing ceremony at the Ministry of Youth and Culture, YER formalized a 3-year partnership to scale our leadership and skills programs to reach 10,000 youth annually across Rwanda.</p>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div class="blog-author"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&q=80" alt="Author" /><span>Diane Uwimana</span></div>
+                <a href="#" class="card-link">Read More <i class="fas fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-card-img">
+              <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=600&q=80" alt="AgriTech" />
+            </div>
+            <div class="blog-card-body">
+              <div>
+                <div class="blog-meta"><span class="blog-tag">Success Story</span><span class="blog-date"><i class="fas fa-calendar"></i> Sep 5, 2024</span></div>
+                <h3>From 1 Acre to 15: How Grace Mukamana Built an AgriTech Empire at 30</h3>
+                <p>When Grace enrolled in our first AgriTech cohort in 2021, she had a single acre of land and no market connections. Today she manages 15 acres, employs 8 youth, and exports to Kampala and Nairobi.</p>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div class="blog-author"><img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=100&q=80" alt="Author" /><span>Jean-Paul Habimana</span></div>
+                <a href="#" class="card-link">Read More <i class="fas fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="blog-card">
+            <div class="blog-card-img">
+              <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=600&q=80" alt="Mental Health" />
+            </div>
+            <div class="blog-card-body">
+              <div>
+                <div class="blog-meta"><span class="blog-tag">Wellness</span><span class="blog-date"><i class="fas fa-calendar"></i> Aug 20, 2024</span></div>
+                <h3>Why Youth Mental Health Can't Wait: Lessons from 3 Years of the Wellness Program</h3>
+                <p>Since launching our Mental Wellness Program in 2021, we have supported over 600 youth. Here are three key lessons we have learned about what works — and what doesn't — in community mental health support.</p>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div class="blog-author"><img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=100&q=80" alt="Author" /><span>Sandrine Mukasine</span></div>
+                <a href="#" class="card-link">Read More <i class="fas fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="pagination">
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">→</button>
+        </div>
+      </main>
+
+      <!-- SIDEBAR -->
+      <aside>
+        <!-- Clock -->
+        <div class="clock-widget">
+          <h4>Kigali Time</h4>
+          <div id="liveClock">Loading...</div>
+          <div id="dynamicGreeting"></div>
+        </div>
+
+        <!-- Search -->
+        <div class="sidebar-widget" style="margin-top:24px">
+          <h3 class="widget-title">Search Articles</h3>
+          <div style="display:flex;border:2px solid var(--border);border-radius:50px;overflow:hidden">
+            <input type="text" placeholder="Search..." style="flex:1;border:none;padding:10px 16px;font-family:var(--font-body);background:none;color:var(--text);outline:none" />
+            <button style="background:var(--primary);border:none;padding:10px 16px;color:#fff;cursor:pointer"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="sidebar-widget">
+          <h3 class="widget-title">Categories</h3>
+          <div class="category-list">
+            <div class="category-item"><span>Events & Summits</span><span class="cat-count">12</span></div>
+            <div class="category-item"><span>Success Stories</span><span class="cat-count">18</span></div>
+            <div class="category-item"><span>Program Updates</span><span class="cat-count">24</span></div>
+            <div class="category-item"><span>Partnerships</span><span class="cat-count">8</span></div>
+            <div class="category-item"><span>Mental Wellness</span><span class="cat-count">10</span></div>
+            <div class="category-item"><span>Youth Voices</span><span class="cat-count">15</span></div>
+          </div>
+        </div>
+
+        <!-- Recent Posts -->
+        <div class="sidebar-widget">
+          <h3 class="widget-title">Recent Posts</h3>
+          <div class="recent-post"><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=200&q=80" alt="" /><div class="recent-post-info"><h5>YER Annual Youth Summit 2024</h5><span>Nov 15, 2024</span></div></div>
+          <div class="recent-post"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=200&q=80" alt="" /><div class="recent-post-info"><h5>Digital Skills Cohort Opens</h5><span>Oct 28, 2024</span></div></div>
+          <div class="recent-post"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=200&q=80" alt="" /><div class="recent-post-info"><h5>Ministry Partnership Signed</h5><span>Oct 10, 2024</span></div></div>
+        </div>
+
+        <!-- CTA -->
+        <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:var(--radius-lg);padding:28px;color:#fff;text-align:center">
+          <i class="fas fa-hand-holding-heart" style="font-size:2rem;margin-bottom:12px;display:block"></i>
+          <h4 style="font-family:var(--font-display);font-size:1.2rem;margin-bottom:8px">Join Our Programs</h4>
+          <p style="color:rgba(255,255,255,0.8);font-size:0.85rem;margin-bottom:16px">Free training for youth aged 15–35 across Rwanda.</p>
+          <a href="contact.html" style="background:#fff;color:var(--primary);padding:10px 24px;border-radius:50px;font-weight:700;font-size:0.88rem;display:inline-block;transition:var(--transition)">Apply Now</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-main container">
+    <div class="footer-brand"><a href="index.html" class="logo footer-logo"><span class="logo-icon">✦</span><span class="logo-text">YE<span class="accent">Rwanda</span></span></a><p>Empowering Rwanda's youth since 2015.</p><div class="social-links"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a></div></div>
+    <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="programs.html">Programs</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-links"><h4>Programs</h4><ul><li><a href="programs.html">Digital Skills Hub</a></li><li><a href="programs.html">Leadership Academy</a></li><li><a href="programs.html">Entrepreneurship Lab</a></li></ul></div>
+    <div class="footer-contact"><h4>Contact</h4><p><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</p><p><i class="fas fa-envelope"></i> iradukundahappy2024@gmail.com</p></div>
+  </div>
+  <div class="footer-bottom container"><p>© 2026 Youth Empowerment Rwanda.</p><p>Made with <span class="heart">❤</span> in Kigali</p></div>
+</footer>
+
+<button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+<script src="c:\Users\Happy\Desktop\Frontend Exam\files\jsfiles\main.js"></script>
+</body>
+</html>

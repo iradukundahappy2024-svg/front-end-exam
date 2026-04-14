@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | Youth Empowerment Rwanda</title>
+  <link rel="stylesheet" href="c:\Users\Happy\Desktop\Frontend Exam\files\cssfiles\style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .contact-grid { display:grid; grid-template-columns:1fr 1.4fr; gap:64px; align-items:start; }
+    .contact-info-card { background:var(--primary); border-radius:var(--radius-lg); padding:48px 40px; color:#fff; position:sticky; top:100px; }
+    .contact-info-card h2 { font-family:var(--font-display); font-size:1.8rem; color:#fff; margin-bottom:12px; }
+    .contact-info-card > p { color:rgba(255,255,255,0.8); line-height:1.7; margin-bottom:40px; }
+    .contact-detail { display:flex; gap:16px; align-items:flex-start; margin-bottom:28px; }
+    .contact-detail-icon { width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+    .contact-detail-text strong { display:block; font-size:0.85rem; color:rgba(255,255,255,0.7); font-weight:600; margin-bottom:3px; }
+    .contact-detail-text span { color:#fff; font-size:0.95rem; }
+    .contact-socials { display:flex; gap:10px; margin-top:36px; padding-top:32px; border-top:1px solid rgba(255,255,255,0.2); }
+    .contact-socials a { width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.8); transition:var(--transition); }
+    .contact-socials a:hover { background:#fff; color:var(--primary); transform:translateY(-3px); }
+
+    .contact-form-card { background:var(--white); border-radius:var(--radius-lg); padding:48px 40px; box-shadow:var(--shadow); }
+    .contact-form-card h2 { font-family:var(--font-display); font-size:1.8rem; color:var(--text); margin-bottom:8px; }
+    .contact-form-card > p { color:var(--text-muted); margin-bottom:36px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .contact-form { display:flex; flex-direction:column; gap:20px; }
+    .submit-btn { align-self:flex-start; cursor:pointer; font-family:var(--font-body); font-size:1rem; }
+    .submit-btn:disabled { opacity:0.6; cursor:not-allowed; transform:none !important; }
+
+    .interest-options { display:flex; flex-wrap:wrap; gap:8px; }
+    .interest-chip { padding:6px 16px; border-radius:50px; border:2px solid var(--border); font-size:0.82rem; font-weight:600; color:var(--text-muted); cursor:pointer; transition:var(--transition); user-select:none; }
+    .interest-chip.selected { border-color:var(--primary); background:var(--primary); color:#fff; }
+    .interest-chip:hover:not(.selected) { border-color:var(--primary); color:var(--primary); }
+
+    .faq-section { margin-top: 80px; }
+    .faq-item { border-bottom:1px solid var(--border); }
+    .faq-question { display:flex; justify-content:space-between; align-items:center; padding:20px 0; cursor:pointer; font-weight:600; color:var(--text); transition:var(--transition); }
+    .faq-question:hover { color:var(--primary); }
+    .faq-question i { transition:var(--transition); color:var(--text-muted); flex-shrink:0; }
+    .faq-item.open .faq-question i { transform:rotate(180deg); color:var(--primary); }
+    .faq-answer { max-height:0; overflow:hidden; transition:max-height 0.4s ease, padding 0.3s; }
+    .faq-item.open .faq-answer { max-height:200px; }
+    .faq-answer p { color:var(--text-muted); line-height:1.7; font-size:0.95rem; padding-bottom:20px; }
+
+    .map-placeholder { width:100%; height:320px; background:linear-gradient(135deg,#e8f5e9,#c8e6c9); border-radius:var(--radius-lg); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; margin-top:56px; border:2px dashed #a5d6a7; }
+    .map-placeholder i { font-size:3rem; color:var(--primary); }
+    .map-placeholder p { color:var(--primary); font-weight:600; }
+
+    .error-msg {
+      display: block;
+      background: #ff4444;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 18px 18px 18px 4px;
+      font-size: 0.85rem;
+      margin-top: 4px;
+      position: relative;
+      max-width: 250px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .error-msg:before {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 12px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid #ff4444;
+    }
+    @media(max-width:640px){ .form-row{grid-template-columns:1fr;} .contact-form-card,.contact-info-card{padding:32px 24px;} }
+  </style>
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo" style="color:var(--text)"><span class="logo-icon">✦</span><span class="logo-text">YE<span class="accent">Rwanda</span></span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="programs.html">Programs</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon" id="themeIcon"></i></button>
+      <a href="contact.html" class="btn-donate">Get Involved</a>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-bg">
+    <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=1600&q=80" alt="Contact" />
+  </div>
+  <div class="container page-hero-content">
+    <div class="section-label">Reach Out</div>
+    <h1>Get In Touch</h1>
+    <p>Whether you want to apply, volunteer, partner, or donate — we would love to hear from you.</p>
+    <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><span>Contact</span></div>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="contact-grid">
+      <!-- Info Card -->
+      <div class="contact-info-card">
+        <h2>Let's Connect</h2>
+        <p>Reach out to us for program applications, partnership inquiries, donations, or any other questions. We're here to help.</p>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="contact-detail-text"><strong>Our Office</strong><span>KG 11 Ave, Gasabo<br />Kigali, Rwanda</span></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><i class="fas fa-phone"></i></div>
+          <div class="contact-detail-text"><strong>Phone</strong><span>+250 796 235 640</span></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-detail-text"><strong>Email</strong><span>iradukundahappy2024@gmail.com</span></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><i class="fas fa-clock"></i></div>
+          <div class="contact-detail-text"><strong>Working Hours</strong><span>Mon–Fri: 8:00 AM – 5:00 PM<br />Sat: 9:00 AM – 1:00 PM</span></div>
+        </div>
+        <div class="contact-socials">
+          <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- Form Card -->
+      <div class="contact-form-card">
+        <h2>Send Us a Message</h2>
+        <p>Fill out the form below and our team will get back to you within 24 hours.</p>
+        
+        <div class="success-msg" id="formSuccess">
+          <i class="fas fa-check-circle"></i>
+          Thank you! Your message has been sent successfully. We'll respond within 24 hours.
+        </div>
+
+        <form class="contact-form" id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name *</label>
+              <input type="text" id="firstName" name="firstName" placeholder="e.g. Amina" minlength="2" required />
+              <span class="error-msg"></span>
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name *</label>
+              <input type="text" id="lastName" name="lastName" placeholder="e.g. Uwase" minlength="2" required />
+              <span class="error-msg"></span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" placeholder="amina@example.com" required />
+              <span class="error-msg"></span>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="+250 788 000 000" />
+              <span class="error-msg"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject *</label>
+            <select id="subject" name="subject" required>
+              <option value="">— Select a subject —</option>
+              <option>Program Application</option>
+              <option>Partnership Inquiry</option>
+              <option>Donation / Funding</option>
+              <option>Volunteer / Mentor</option>
+              <option>Media & Press</option>
+              <option>General Question</option>
+            </select>
+            <span class="error-msg"></span>
+          </div>
+
+          <div class="form-group">
+            <label>I'm Interested In (select all that apply)</label>
+            <div class="interest-options" id="interestOptions">
+              <span class="interest-chip" data-val="digital">💻 Digital Skills</span>
+              <span class="interest-chip" data-val="leadership">👥 Leadership</span>
+              <span class="interest-chip" data-val="entrepreneurship">💼 Entrepreneurship</span>
+              <span class="interest-chip" data-val="agritech">🌾 AgriTech</span>
+              <span class="interest-chip" data-val="wellness">🧠 Wellness</span>
+              <span class="interest-chip" data-val="mentorship">🤝 Mentorship</span>
+              <span class="interest-chip" data-val="volunteer">❤️ Volunteering</span>
+              <span class="interest-chip" data-val="donate">💚 Donating</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message *</label>
+            <textarea id="message" name="message" placeholder="Tell us more about your inquiry, background, or how we can help you..." minlength="20" required></textarea>
+            <span class="error-msg"></span>
+          </div>
+
+          <div class="form-group" style="flex-direction:row;align-items:flex-start;gap:12px">
+            <input type="checkbox" id="consent" style="width:auto;margin-top:4px;accent-color:var(--primary)" required />
+            <label for="consent" style="font-weight:400;font-size:0.85rem;color:var(--text-muted);cursor:pointer">I agree to Youth Empowerment Rwanda's privacy policy and consent to being contacted about programs and updates.</label>
+          </div>
+
+          <button type="submit" class="btn-primary submit-btn" id="submitBtn">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Map Placeholder -->
+    <div class="map-placeholder">
+      <i class="fas fa-map-marked-alt"></i>
+      <p>KG 11 Ave, Gasabo, Kigali, Rwanda</p>
+      <a href="https://maps.google.com/?q=Kigali,Rwanda" target="_blank" class="btn-primary" style="margin-top:4px">View on Google Maps <i class="fas fa-external-link-alt"></i></a>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+      <div class="section-header centered">
+        <div class="section-label">Got Questions?</div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+      <div style="max-width:720px;margin:0 auto" id="faqContainer">
+        <div class="faq-item">
+          <div class="faq-question">Who can apply to YER programs?<i class="fas fa-chevron-down"></i></div>
+          <div class="faq-answer"><p>Our programs are open to young Rwandans aged 15–35. Some programs have specific requirements (e.g., the AgriTech program targets youth in rural areas). All programs are free of charge for eligible participants.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">How do I apply for a program?<i class="fas fa-chevron-down"></i></div>
+          <div class="faq-answer"><p>Fill out the contact form on this page selecting "Program Application" as the subject, or visit our Programs page to learn about specific program timelines. We accept rolling applications and cohorts start every quarter.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">Are YER programs really free?<i class="fas fa-chevron-down"></i></div>
+          <div class="faq-answer"><p>Yes, all our programs are fully subsidized through grants, donations, and partner support. Participants are never charged tuition or program fees. Some programs also provide transport stipends for participants from outside Kigali.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">How can I become a mentor?<i class="fas fa-chevron-down"></i></div>
+          <div class="faq-answer"><p>We welcome professionals from all fields to join our Mentorship Network. Fill out the contact form with the subject "Volunteer / Mentor" and tell us about your background and the type of youth you'd like to mentor. Our team will follow up within 3 business days.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">How does YER use donations?<i class="fas fa-chevron-down"></i></div>
+          <div class="faq-answer"><p>82% of every donation goes directly to program delivery and participant support. 10% covers operational overhead, and 8% goes toward program evaluation and learning. We publish annual financial reports on our website for full transparency.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-main container">
+    <div class="footer-brand"><a href="index.html" class="logo footer-logo"><span class="logo-icon">✦</span><span class="logo-text">YE<span class="accent">Rwanda</span></span></a><p>Empowering Rwanda's youth since 2015.</p><div class="social-links"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a></div></div>
+    <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="programs.html">Programs</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-links"><h4>Programs</h4><ul><li><a href="programs.html">Digital Skills Hub</a></li><li><a href="programs.html">Leadership Academy</a></li><li><a href="programs.html">Entrepreneurship Lab</a></li><li><a href="programs.html">AgriTech Program</a></li></ul></div>
+    <div class="footer-contact"><h4>Contact</h4><p><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</p><p><i class="fas fa-phone"></i> +250 796 235 640</p><p><i class="fas fa-envelope"></i> iradukundahappy2024@gmail.com</p></div>
+  </div>
+  <div class="footer-bottom container"><p>© 2026 Youth Empowerment Rwanda. All Rights Reserved.</p><p>Made with <span class="heart">❤</span> in Kigali</p></div>
+</footer>
+
+<button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+
+<script src="c:\Users\Happy\Desktop\Frontend Exam\files\jsfiles\main.js"></script>
+<script>
+  /* ===== CONTACT FORM VALIDATION ===== */
+  const form = document.getElementById('contactForm');
+  const successMsg = document.getElementById('formSuccess');
+  const submitBtn = document.getElementById('submitBtn');
+
+  // Interest chip toggle
+  document.querySelectorAll('.interest-chip').forEach(chip => {
+    chip.addEventListener('click', () => chip.classList.toggle('selected'));
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let isValid = true;
+
+    // Validate required text/email/textarea fields
+    ['firstName', 'lastName', 'email', 'message'].forEach(id => {
+      const input = document.getElementById(id);
+      if (!window.validateField(input)) isValid = false;
+    });
+
+    // Validate phone if filled in
+    const phone = document.getElementById('phone');
+    if (phone.value.trim()) {
+      if (!window.validateField(phone)) isValid = false;
+    }
+
+    // Validate select
+    const subject = document.getElementById('subject');
+    const subjectGroup = subject.closest('.form-group');
+    if (!subject.value) {
+      subjectGroup.classList.add('error');
+      subjectGroup.querySelector('.error-msg').textContent = 'Please select a subject.';
+      isValid = false;
+    } else {
+      subjectGroup.classList.remove('error');
+    }
+
+    // Validate consent
+    const consent = document.getElementById('consent');
+    if (!consent.checked) {
+      alert('Please accept the privacy policy to continue.');
+      isValid = false;
+    }
+
+    if (isValid) {
+      // Collect form data
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const subject = document.getElementById('subject').value;
+      const messageText = document.getElementById('message').value.trim();
+      
+      // Get selected interests
+      const selectedInterests = Array.from(document.querySelectorAll('.interest-chip.selected'))
+        .map(chip => chip.textContent.trim())
+        .join(', ') || 'None';
+      
+      // Generate WhatsApp message
+      const whatsappMessage = `*New Contact Form Submission*\n\n` +
+        `*Name:* ${firstName} ${lastName}\n` +
+        `*Email:* ${email}\n` +
+        `*Phone:* ${phone || 'Not provided'}\n` +
+        `*Subject:* ${subject}\n` +
+        `*Interests:* ${selectedInterests}\n` +
+        `*Message:*\n${messageText}\n\n` +
+        `_Sent from Youth Empowerment Rwanda website_`;
+      
+      // WhatsApp URL (remove spaces from phone number)
+      const whatsappNumber = '250796235640'; // +250 796 235 640 without spaces
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+      
+      // Show loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Opening WhatsApp...';
+      
+      // Redirect to WhatsApp after a short delay
+      setTimeout(() => {
+        window.location.href = whatsappUrl;
+        // Reset form after redirect
+        setTimeout(() => {
+          form.reset();
+          document.querySelectorAll('.interest-chip').forEach(chip => chip.classList.remove('selected'));
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+        }, 1000);
+      }, 500);
+    }
+  });
+
+  // Live validation on blur
+  ['firstName', 'lastName', 'email', 'message'].forEach(id => {
+    const input = document.getElementById(id);
+    input.addEventListener('blur', () => window.validateField(input));
+    input.addEventListener('input', () => {
+      if (input.closest('.form-group').classList.contains('error')) {
+        window.validateField(input);
+      }
+    });
+  });
+
+  /* ===== FAQ ACCORDION ===== */
+  document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+      const item = question.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

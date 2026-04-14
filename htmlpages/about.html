@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | Youth Empowerment Rwanda</title>
+  <link rel="stylesheet" href="c:\Users\Happy\Desktop\Frontend Exam\files\cssfiles\style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ABOUT PAGE STYLES */
+    .timeline { position: relative; max-width: 800px; margin: 0 auto; }
+    .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: var(--border); transform: translateX(-50%); }
+    .timeline-item { display: flex; gap: 40px; margin-bottom: 48px; align-items: flex-start; }
+    .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+    .timeline-content { flex: 1; background: var(--white); padding: 28px; border-radius: var(--radius); box-shadow: var(--shadow); transition: var(--transition); }
+    .timeline-content:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    .timeline-dot { flex-shrink: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--primary); border: 3px solid var(--light); box-shadow: 0 0 0 3px var(--primary); margin-top: 24px; position: relative; z-index: 1; }
+    .timeline-year { font-size: 0.8rem; font-weight: 700; color: var(--primary); letter-spacing: 1px; margin-bottom: 6px; }
+    .timeline-content h3 { font-family: var(--font-display); font-size: 1.1rem; color: var(--text); margin-bottom: 8px; }
+    .timeline-content p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
+
+    .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .team-card { text-align: center; }
+    .team-img-wrap { position: relative; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 16px; aspect-ratio: 3/4; }
+    .team-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+    .team-card:hover .team-img-wrap img { transform: scale(1.05); }
+    .team-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,23,42,0.85) 0%, transparent 60%); opacity: 0; transition: var(--transition); display: flex; align-items: flex-end; justify-content: center; padding: 20px; }
+    .team-card:hover .team-overlay { opacity: 1; }
+    .team-socials { display: flex; gap: 10px; }
+    .team-socials a { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.8rem; transition: var(--transition); }
+    .team-socials a:hover { background: var(--primary); border-color: var(--primary); }
+    .team-card h4 { font-family: var(--font-display); font-size: 1rem; color: var(--text); margin-bottom: 4px; }
+    .team-card span { color: var(--primary); font-size: 0.82rem; font-weight: 600; }
+
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .value-card { padding: 36px 28px; background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow); border-top: 4px solid transparent; transition: var(--transition); }
+    .value-card:hover { border-top-color: var(--primary); transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    .value-card .icon { width: 56px; height: 56px; border-radius: var(--radius); background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 20px; }
+    .value-card h3 { font-family: var(--font-display); font-size: 1.1rem; color: var(--text); margin-bottom: 10px; }
+    .value-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
+
+    .partners-detailed { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .partner-card { padding: 28px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; transition: var(--transition); }
+    .partner-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    .partner-card .p-icon { font-size: 2rem; margin-bottom: 12px; }
+    .partner-card h4 { font-weight: 700; color: var(--text); margin-bottom: 6px; font-size: 0.95rem; }
+    .partner-card p { color: var(--text-muted); font-size: 0.82rem; line-height: 1.6; }
+
+    @media (max-width: 1024px) { .team-grid { grid-template-columns: repeat(2, 1fr); } .values-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) { 
+      .timeline::before { left: 20px; }
+      .timeline-item, .timeline-item:nth-child(even) { flex-direction: column; padding-left: 50px; }
+      .timeline-dot { position: absolute; left: 12px; }
+      .timeline-item { position: relative; }
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+      .values-grid { grid-template-columns: 1fr; }
+      .partners-detailed { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) { .team-grid { grid-template-columns: 1fr; } .partners-detailed { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo" style="color:var(--text)">
+      <span class="logo-icon">✦</span>
+      <span class="logo-text">YE<span class="accent">Rwanda</span></span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="programs.html">Programs</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon" id="themeIcon"></i></button>
+      <a href="contact.html" class="btn-donate">Get Involved</a>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg">
+    <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1600&q=80" alt="About us" />
+  </div>
+  <div class="container page-hero-content">
+    <div class="section-label">Who We Are</div>
+    <h1>About Youth Empowerment Rwanda</h1>
+    <p>A decade of transforming lives, communities, and futures across Rwanda's 30 districts.</p>
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <span>About Us</span>
+    </div>
+  </div>
+</section>
+
+<!-- STORY SECTION -->
+<section class="section-pad">
+  <div class="container">
+    <div class="mission-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center">
+      <div>
+        <div class="section-label">Our Story</div>
+        <h2 class="section-title">From a Small Idea to<br />a National Movement</h2>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:16px">Youth Empowerment Rwanda (YER) was born in 2015 from the vision of three young Rwandans who saw a gap: thousands of talented, energetic young people with no structured pathways to develop their potential.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:16px">Starting in a single room in Kicukiro with 15 youth participants, YER has grown into a nationally recognized organization serving over 3,200 youth annually across all 30 districts of Rwanda.</p>
+        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:32px">Our approach combines practical skills training, mentorship, psychological support, and community-based action — because true empowerment addresses the whole person.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="programs.html" class="btn-primary">View Programs</a>
+          <a href="contact.html" class="btn-outline">Get Involved</a>
+        </div>
+      </div>
+      <div style="position:relative">
+        <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\image 6.jpeg" alt="Our story" style="border-radius:var(--radius-lg);width:100%;aspect-ratio:4/5;object-fit:cover;box-shadow:var(--shadow-hover)" />
+        <div style="position:absolute;bottom:-20px;left:-20px;background:var(--primary);color:#fff;padding:20px 24px;border-radius:var(--radius);box-shadow:var(--shadow-hover)">
+          <div style="font-family:var(--font-display);font-size:2.2rem;font-weight:900;line-height:1">2015</div>
+          <div style="font-size:0.8rem;opacity:0.85;margin-top:4px">Year Founded</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION, VISION, VALUES -->
+<section class="section-pad" style="background:var(--primary);color:#fff">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;text-align:center">
+      <div>
+        <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 20px"><i class="fas fa-bullseye"></i></div>
+        <h3 style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:12px;color:#fff">Our Mission</h3>
+        <p style="color:rgba(255,255,255,0.8);line-height:1.7;font-size:0.95rem">To equip young Rwandans with the skills, knowledge, networks, and confidence to lead productive and meaningful lives and contribute to national development.</p>
+      </div>
+      <div>
+        <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 20px"><i class="fas fa-eye"></i></div>
+        <h3 style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:12px;color:#fff">Our Vision</h3>
+        <p style="color:rgba(255,255,255,0.8);line-height:1.7;font-size:0.95rem">A Rwanda where every young person, regardless of background, has equal access to opportunities and the tools to shape their own destiny.</p>
+      </div>
+      <div>
+        <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 20px"><i class="fas fa-star"></i></div>
+        <h3 style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:12px;color:#fff">Our Approach</h3>
+        <p style="color:rgba(255,255,255,0.8);line-height:1.7;font-size:0.95rem">Holistic, community-driven, youth-led programming that combines practical skills with mentorship, psychological support, and civic engagement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR VALUES -->
+<section class="section-pad">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-label">What Drives Us</div>
+      <h2 class="section-title">Our Core Values</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card"><div class="icon"><i class="fas fa-hands-helping"></i></div><h3>Ubuntu</h3><p>We believe in the African philosophy that "I am because we are." Community, collaboration, and shared growth are at the heart of everything we do.</p></div>
+      <div class="value-card"><div class="icon"><i class="fas fa-lightbulb"></i></div><h3>Innovation</h3><p>We embrace new ideas, creative solutions, and technology as key tools for unlocking youth potential in the modern economy.</p></div>
+      <div class="value-card"><div class="icon"><i class="fas fa-shield-alt"></i></div><h3>Integrity</h3><p>We are transparent, accountable, and honest in all that we do — with our participants, partners, donors, and the public.</p></div>
+      <div class="value-card"><div class="icon"><i class="fas fa-balance-scale"></i></div><h3>Inclusivity</h3><p>We actively work to include youth from all backgrounds — regardless of gender, disability status, economic situation, or geography.</p></div>
+      <div class="value-card"><div class="icon"><i class="fas fa-chart-line"></i></div><h3>Impact Focus</h3><p>Everything we do is measured against real outcomes in the lives of young people. We are driven by evidence and results.</p></div>
+      <div class="value-card"><div class="icon"><i class="fas fa-seedling"></i></div><h3>Sustainability</h3><p>We build programs and community systems that outlast our direct involvement, creating lasting change that compounds over generations.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="section-pad" style="background:var(--white)">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-label">Our Journey</div>
+      <h2 class="section-title">A Decade of Growth</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-content"><div class="timeline-year">2015</div><h3>Foundation</h3><p>YER founded in Kicukiro with 15 youth participants, a single training room, and a big dream to transform Rwanda's youth landscape.</p></div>
+        <div class="timeline-dot"></div>
+        <div style="flex:1"></div>
+      </div>
+      <div class="timeline-item">
+        <div style="flex:1"></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content"><div class="timeline-year">2017</div><h3>National Recognition</h3><p>Registered as a national NGO; expanded to 5 districts. Launched the flagship Leadership Academy with support from GIZ Rwanda.</p></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-content"><div class="timeline-year">2019</div><h3>Digital Expansion</h3><p>Launched the Digital Skills Hub, training 400+ youth in coding and tech entrepreneurship. Partnered with MTN Rwanda Foundation.</p></div>
+        <div class="timeline-dot"></div>
+        <div style="flex:1"></div>
+      </div>
+      <div class="timeline-item">
+        <div style="flex:1"></div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content"><div class="timeline-year">2021</div><h3>COVID Resilience</h3><p>Pivoted to virtual programming during the pandemic, reaching 800+ youth online. Launched Mental Wellness program in response to rising youth anxiety.</p></div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-content"><div class="timeline-year">2023</div><h3>Award & Scale</h3><p>Won Best NGO Rwanda Award. Expanded to all 30 districts. Launched Mentorship Network with 200+ professional mentors.</p></div>
+        <div class="timeline-dot"></div>
+        <div style="flex:1"></div>
+      </div>
+      <div class="timeline-item">
+        <div style="flex:1"></div>
+        <div class="timeline-dot" style="background:var(--accent);box-shadow: 0 0 0 3px var(--accent)"></div>
+        <div class="timeline-content" style="border-left:4px solid var(--accent)"><div class="timeline-year" style="color:var(--accent)">2024–2025</div><h3>Next Chapter</h3><p>Strategic partnership with Ministry of Youth for national rollout. Target: 10,000 youth reached by end of 2025. East African expansion in planning.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section-pad">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-label">The People</div>
+      <h2 class="section-title">Meet Our Leadership Team</h2>
+      <p class="section-sub">Dedicated professionals committed to youth empowerment across Rwanda</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-img-wrap">
+          <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\image 5.jpeg" alt="CEO" />
+          <div class="team-overlay"><div class="team-socials"><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-twitter"></i></a></div></div>
+        </div>
+        <h4>Michealla NIBYAYO</h4>
+        <span>Executive Director & Co-Founder</span>
+      </div>
+      <div class="team-card">
+        <div class="team-img-wrap">
+          <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\image 1.jpeg" alt="Programs Director" />
+          <div class="team-overlay"><div class="team-socials"><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-twitter"></i></a></div></div>
+        </div>
+        <h4>Happy IRADUKUNDA</h4>
+        <span>Director of Programs</span>
+      </div>
+      <div class="team-card">
+        <div class="team-img-wrap">
+          <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\image 3.jpeg" alt="Tech Director" />
+          <div class="team-overlay"><div class="team-socials"><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-twitter"></i></a></div></div>
+        </div>
+        <h4>Happy IRADUKUNDA</h4>
+        <span>Head of Digital Skills</span>
+      </div>
+      <div class="team-card">
+        <div class="team-img-wrap">
+          <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\image 6.jpeg" alt="Finance" />
+          <div class="team-overlay"><div class="team-socials"><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-twitter"></i></a></div></div>
+        </div>
+        <h4>Amie Teta</h4>
+        <span>Finance & Operations Manager</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="section-pad" style="background:var(--white)">
+  <div class="container">
+    <div class="section-header centered">
+      <div class="section-label">Collaboration</div>
+      <h2 class="section-title">Our Key Partners</h2>
+    </div>
+    <div class="partners-detailed">
+      <div class="partner-card"><div class="p-icon">🏛️</div><h4>Ministry of Youth & Culture</h4><p>National-level program integration and youth policy collaboration.</p></div>
+      <div class="partner-card"><div class="p-icon">🌍</div><h4>UNDP Rwanda</h4><p>Funding, capacity building, and alignment with UN development goals.</p></div>
+      <div class="partner-card"><div class="p-icon">💼</div><h4>Rwanda Development Board</h4><p>Entrepreneurship support and business ecosystem linkages.</p></div>
+      <div class="partner-card"><div class="p-icon">🇩🇪</div><h4>GIZ Rwanda</h4><p>Technical training and vocational skills development programs.</p></div>
+      <div class="partner-card"><div class="p-icon">💳</div><h4>Mastercard Foundation</h4><p>Education and economic inclusion funding for rural youth cohorts.</p></div>
+      <div class="partner-card"><div class="p-icon">📱</div><h4>MTN Foundation Rwanda</h4><p>Digital connectivity and tech access for underserved communities.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-main container">
+    <div class="footer-brand">
+      <a href="index.html" class="logo footer-logo"><span class="logo-icon">✦</span><span class="logo-text">YE<span class="accent">Rwanda</span></span></a>
+      <p>Empowering Rwanda's youth since 2015. Building skills, unlocking potential, and transforming communities.</p>
+      <div class="social-links"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a></div>
+    </div>
+    <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="programs.html">Programs</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-links"><h4>Programs</h4><ul><li><a href="programs.html">Digital Skills Hub</a></li><li><a href="programs.html">Leadership Academy</a></li><li><a href="programs.html">Entrepreneurship Lab</a></li><li><a href="programs.html">AgriTech Program</a></li></ul></div>
+    <div class="footer-contact"><h4>Contact</h4><p><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</p><p><i class="fas fa-phone"></i> +250 796 235 640</p><p><i class="fas fa-envelope"></i> iradukundahappy2024@gmail.com</p></div>
+  </div>
+  <div class="footer-bottom container"><p>© 2026 Youth Empowerment Rwanda. All Rights Reserved.</p><p>Made with <span class="heart">❤</span> in Kigali</p></div>
+</footer>
+
+<button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+
+<script src="c:\Users\Happy\Desktop\Frontend Exam\files\jsfiles\main.js"></script>
+</body>
+</html>
