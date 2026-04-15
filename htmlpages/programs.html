@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programs | Youth Empowerment Rwanda</title>
+  <link rel="stylesheet" href="c:\Users\Happy\Desktop\Frontend Exam\files\cssfiles\style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .tab-nav { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:48px; background:var(--white); padding:8px; border-radius:50px; box-shadow:var(--shadow); width:fit-content; }
+    .tab-btn { padding:10px 24px; border-radius:50px; border:none; background:none; font-family:var(--font-body); font-size:0.9rem; font-weight:600; color:var(--text-muted); cursor:pointer; transition:var(--transition); }
+    .tab-btn.active { background:var(--primary); color:#fff; }
+    .tab-btn:hover:not(.active) { background:var(--primary-light); color:var(--primary); }
+    .tab-content { display:none; }
+    .tab-content.active { display:block; animation:fadeIn 0.4s ease; }
+
+    .program-detail { display:grid; grid-template-columns:1fr 1.1fr; gap:64px; align-items:start; }
+    .program-detail-img { position:relative; border-radius:var(--radius-lg); overflow:hidden; }
+    .program-detail-img img { width:100%; aspect-ratio:4/3; object-fit:cover; }
+    .prog-highlight { position:absolute; bottom:20px; left:20px; right:20px; background:rgba(15,23,42,0.85); backdrop-filter:blur(10px); border-radius:var(--radius); padding:16px 20px; color:#fff; display:flex; gap:20px; }
+    .prog-stat { text-align:center; }
+    .prog-stat strong { display:block; font-family:var(--font-display); font-size:1.5rem; color:var(--accent); }
+    .prog-stat span { font-size:0.75rem; color:rgba(255,255,255,0.6); }
+
+    .program-detail-text h2 { font-family:var(--font-display); font-size:2rem; color:var(--text); margin-bottom:16px; line-height:1.3; }
+    .program-detail-text p { color:var(--text-muted); line-height:1.8; margin-bottom:20px; font-size:0.95rem; }
+    .prog-features { display:flex; flex-direction:column; gap:12px; margin:24px 0; }
+    .prog-feature { display:flex; gap:12px; align-items:flex-start; }
+    .prog-feature i { color:var(--primary); margin-top:4px; flex-shrink:0; }
+    .prog-feature span { color:var(--text-muted); font-size:0.9rem; }
+    .prog-meta { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:24px 0; }
+    .meta-item { background:var(--white); padding:14px; border-radius:var(--radius); box-shadow:var(--shadow); text-align:center; }
+    .meta-item i { color:var(--primary); font-size:1.1rem; display:block; margin-bottom:6px; }
+    .meta-item strong { display:block; font-size:0.8rem; color:var(--text); }
+    .meta-item span { font-size:0.75rem; color:var(--text-muted); }
+
+    .apply-card { background:linear-gradient(135deg,var(--primary),var(--primary-dark)); border-radius:var(--radius-lg); padding:40px; color:#fff; text-align:center; margin-top:48px; }
+    .apply-card h3 { font-family:var(--font-display); font-size:1.6rem; margin-bottom:12px; }
+    .apply-card p { color:rgba(255,255,255,0.8); margin-bottom:24px; }
+    .apply-card .btn-white { background:#fff; color:var(--primary); padding:14px 32px; border-radius:50px; font-weight:700; transition:var(--transition); display:inline-block; }
+    .apply-card .btn-white:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,0.2); }
+
+    @media(max-width:1024px){ .program-detail{grid-template-columns:1fr;} }
+    @media(max-width:768px){ .prog-meta{grid-template-columns:1fr 1fr;} .tab-nav{width:100%;} }
+  </style>
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo" style="color:var(--text)"><span class="logo-icon">✦</span><span class="logo-text">YE<span class="accent">Rwanda</span></span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="c:\Users\Happy\Desktop\Frontend Exam\files\index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="programs.html" class="active">Programs</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon" id="themeIcon"></i></button>
+      <a href="contact.html" class="btn-donate">Get Involved</a>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-bg">
+    <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\m.jpg" alt="Programs" />
+  </div>
+  <div class="container page-hero-content">
+    <div class="section-label">What We Offer</div>
+    <h1>Our Programs</h1>
+    <p>Six transformative programs designed to unlock every dimension of youth potential in Rwanda.</p>
+    <div class="breadcrumb"><a href="c:\Users\Happy\Desktop\Frontend Exam\files\index.html">Home</a><span>›</span><span>Programs</span></div>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="tab-nav" id="tabNav">
+      <button class="tab-btn active" data-tab="digital">💻 Digital Skills</button>
+      <button class="tab-btn" data-tab="leadership">👥 Leadership</button>
+      <button class="tab-btn" data-tab="entrepreneurship">💼 Entrepreneurship</button>
+      <button class="tab-btn" data-tab="agritech">🌾 AgriTech</button>
+      <button class="tab-btn" data-tab="wellness">🧠 Wellness</button>
+      <button class="tab-btn" data-tab="mentorship">🤝 Mentorship</button>
+    </div>
+
+    <!-- Digital Skills -->
+    <div class="tab-content active" id="tab-digital">
+      <div class="program-detail">
+        <div class="program-detail-img">
+          <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\im 12.jpg" alt="Digital Skills" />
+          <div class="prog-highlight">
+            <div class="prog-stat"><strong>800+</strong><span>Graduates</span></div>
+            <div class="prog-stat"><strong>6 mo.</strong><span>Duration</span></div>
+            <div class="prog-stat"><strong>78%</strong><span>Job Rate</span></div>
+          </div>
+        </div>
+        <div class="program-detail-text">
+          <div class="section-label">Program 01</div>
+          <h2>Digital Skills Hub</h2>
+          <p>Our Digital Skills Hub is a 6-month intensive training program preparing youth for careers in the digital economy. From beginners to advanced learners, we have tracks for everyone.</p>
+          <p>Participants learn through hands-on projects, industry mentorship, and real-world assignments with partner companies. Upon graduation, participants receive a recognized certification.</p>
+          <div class="prog-meta">
+            <div class="meta-item"><i class="fas fa-calendar"></i><strong>6 Months</strong><span>Duration</span></div>
+            <div class="meta-item"><i class="fas fa-users"></i><strong>200/cohort</strong><span>Capacity</span></div>
+            <div class="meta-item"><i class="fas fa-money-bill"></i><strong>Free</strong><span>Tuition</span></div>
+          </div>
+          <div class="prog-features">
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Web development (HTML, CSS, JavaScript, React)</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Mobile app development (Android & iOS basics)</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Digital marketing and social media management</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Data analysis and visualization tools</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Cybersecurity fundamentals</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Freelancing and online income generation</span></div>
+          </div>
+          <a href="contact.html" class="btn-primary">Apply for Digital Skills Hub</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leadership -->
+    <div class="tab-content" id="tab-leadership">
+      <div class="program-detail">
+        <div class="program-detail-img">
+          <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80" alt="Leadership" />
+          <div class="prog-highlight">
+            <div class="prog-stat"><strong>500+</strong><span>Leaders</span></div>
+            <div class="prog-stat"><strong>6 mo.</strong><span>Duration</span></div>
+            <div class="prog-stat"><strong>100</strong><span>Slots/year</span></div>
+          </div>
+        </div>
+        <div class="program-detail-text">
+          <div class="section-label">Program 02</div>
+          <h2>Leadership Academy</h2>
+          <p>Our flagship Leadership Academy is a six-month transformative program for 100 exceptional young Rwandans each year, aged 18–30, who demonstrate the potential and commitment to lead their communities.</p>
+          <p>Graduates go on to lead NGOs, start companies, win elections, and drive systemic change across Rwanda and East Africa.</p>
+          <div class="prog-meta">
+            <div class="meta-item"><i class="fas fa-calendar"></i><strong>6 Months</strong><span>Duration</span></div>
+            <div class="meta-item"><i class="fas fa-users"></i><strong>100/year</strong><span>Capacity</span></div>
+            <div class="meta-item"><i class="fas fa-trophy"></i><strong>Certified</strong><span>Accredited</span></div>
+          </div>
+          <div class="prog-features">
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Personal leadership development and self-awareness</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Public speaking and communication mastery</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Strategic thinking and problem-solving workshops</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Community project design and implementation</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Networking trips to Nairobi, Kampala, and Dar es Salaam</span></div>
+          </div>
+          <a href="contact.html" class="btn-primary">Apply for Leadership Academy</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Entrepreneurship -->
+    <div class="tab-content" id="tab-entrepreneurship">
+      <div class="program-detail">
+        <div class="program-detail-img">
+          <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800&q=80" alt="Entrepreneurship" />
+          <div class="prog-highlight">
+            <div class="prog-stat"><strong>150+</strong><span>Startups</span></div>
+            <div class="prog-stat"><strong>1 yr</strong><span>Duration</span></div>
+            <div class="prog-stat"><strong>$2K</strong><span>Seed Grant</span></div>
+          </div>
+        </div>
+        <div class="program-detail-text">
+          <div class="section-label">Program 03</div>
+          <h2>Entrepreneurship Lab</h2>
+          <p>The YER Entrepreneurship Lab provides aspiring youth entrepreneurs with the business incubation support, mentorship, tools, and seed funding they need to turn ideas into sustainable businesses.</p>
+          <div class="prog-meta">
+            <div class="meta-item"><i class="fas fa-calendar"></i><strong>12 Months</strong><span>Duration</span></div>
+            <div class="meta-item"><i class="fas fa-users"></i><strong>50/cohort</strong><span>Capacity</span></div>
+            <div class="meta-item"><i class="fas fa-coins"></i><strong>Up to $2K</strong><span>Seed Fund</span></div>
+          </div>
+          <div class="prog-features">
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Business model canvas and lean startup methodology</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Financial literacy, accounting, and bookkeeping</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Marketing, branding, and customer acquisition</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Access to investors, RDB, and banking partners</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Seed grant of up to $2,000 for qualifying businesses</span></div>
+          </div>
+          <a href="contact.html" class="btn-primary">Apply for Entrepreneurship Lab</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- AgriTech -->
+    <div class="tab-content" id="tab-agritech">
+      <div class="program-detail">
+        <div class="program-detail-img">
+          <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=800&q=80" alt="AgriTech" />
+          <div class="prog-highlight">
+            <div class="prog-stat"><strong>400+</strong><span>Farmers</span></div>
+            <div class="prog-stat"><strong>8 mo.</strong><span>Duration</span></div>
+            <div class="prog-stat"><strong>30</strong><span>Districts</span></div>
+          </div>
+        </div>
+        <div class="program-detail-text">
+          <div class="section-label">Program 04</div>
+          <h2>AgriTech Program</h2>
+          <p>Rwanda's future depends on transforming agriculture. The YER AgriTech Program combines traditional farming knowledge with modern technology and business skills to help young farmers build profitable agri-enterprises.</p>
+          <div class="prog-meta">
+            <div class="meta-item"><i class="fas fa-calendar"></i><strong>8 Months</strong><span>Duration</span></div>
+            <div class="meta-item"><i class="fas fa-map-marker-alt"></i><strong>Rural</strong><span>Focus</span></div>
+            <div class="meta-item"><i class="fas fa-tractor"></i><strong>Equipment</strong><span>Provided</span></div>
+          </div>
+          <div class="prog-features">
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Smart farming and precision agriculture tools</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Irrigation, soil testing, and crop management</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Agricultural value chain and market linkages</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Cooperative formation and collective bargaining</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Access to Agaciro Development Fund loans</span></div>
+          </div>
+          <a href="contact.html" class="btn-primary">Apply for AgriTech Program</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wellness -->
+    <div class="tab-content" id="tab-wellness">
+      <div class="program-detail">
+        <div class="program-detail-img">
+          <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80" alt="Wellness" />
+          <div class="prog-highlight">
+            <div class="prog-stat"><strong>600+</strong><span>Supported</span></div>
+            <div class="prog-stat"><strong>Ongoing</strong><span>Support</span></div>
+            <div class="prog-stat"><strong>Free</strong><span>Counseling</span></div>
+          </div>
+        </div>
+        <div class="program-detail-text">
+          <div class="section-label">Program 05</div>
+          <h2>Mental Wellness Program</h2>
+          <p>Mental health is the foundation of all achievement. Launched in 2021, our Mental Wellness Program provides evidence-based support to young Rwandans navigating trauma, anxiety, and life challenges.</p>
+          <div class="prog-meta">
+            <div class="meta-item"><i class="fas fa-calendar"></i><strong>Ongoing</strong><span>Duration</span></div>
+            <div class="meta-item"><i class="fas fa-heart"></i><strong>Free</strong><span>Cost</span></div>
+            <div class="meta-item"><i class="fas fa-lock"></i><strong>Private</strong><span>Confidential</span></div>
+          </div>
+          <div class="prog-features">
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>1-on-1 counseling with certified therapists</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Peer support circles (groups of 8–12 youth)</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Resilience and coping skills workshops</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Trauma-informed care and PTSD support</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Emergency mental health crisis referral network</span></div>
+          </div>
+          <a href="contact.html" class="btn-primary">Access Wellness Support</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mentorship -->
+    <div class="tab-content" id="tab-mentorship">
+      <div class="program-detail">
+        <div class="program-detail-img">
+          <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800&q=80" alt="Mentorship" />
+          <div class="prog-highlight">
+            <div class="prog-stat"><strong>200+</strong><span>Mentors</span></div>
+            <div class="prog-stat"><strong>1 yr</strong><span>Duration</span></div>
+            <div class="prog-stat"><strong>EA-wide</strong><span>Network</span></div>
+          </div>
+        </div>
+        <div class="program-detail-text">
+          <div class="section-label">Program 06</div>
+          <h2>Mentorship Network</h2>
+          <p>The YER Mentorship Network connects ambitious young Rwandans with over 200 vetted professional mentors from business, government, academia, and civil society across East Africa.</p>
+          <div class="prog-meta">
+            <div class="meta-item"><i class="fas fa-calendar"></i><strong>12 Months</strong><span>Matching</span></div>
+            <div class="meta-item"><i class="fas fa-globe"></i><strong>East Africa</strong><span>Reach</span></div>
+            <div class="meta-item"><i class="fas fa-users"></i><strong>200+</strong><span>Mentors</span></div>
+          </div>
+          <div class="prog-features">
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>AI-powered mentor-mentee matching algorithm</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Monthly 1-on-1 sessions (virtual or in-person)</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Career planning, job referrals, and internships</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Quarterly cohort networking events in Kigali</span></div>
+            <div class="prog-feature"><i class="fas fa-check-circle"></i><span>Access to East Africa professional network (Nairobi, Kampala)</span></div>
+          </div>
+          <a href="contact.html" class="btn-primary">Join the Mentorship Network</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Apply CTA -->
+    <div class="apply-card">
+      <h3>Ready to Apply?</h3>
+      <p>All programs are free for eligible youth aged 15–35. Applications are reviewed on a rolling basis.</p>
+      <a href="contact.html" class="btn-white">Start Your Application</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-main container">
+    <div class="footer-brand"><a href="index.html" class="logo footer-logo"><span class="logo-icon">✦</span><span class="logo-text">YE<span class="accent">Rwanda</span></span></a><p>Empowering Rwanda's youth since 2015.</p><div class="social-links"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a></div></div>
+    <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="c:\Users\Happy\Desktop\Frontend Exam\files\index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="programs.html">Programs</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-links"><h4>Programs</h4><ul><li><a href="programs.html">Digital Skills Hub</a></li><li><a href="programs.html">Leadership Academy</a></li><li><a href="programs.html">Entrepreneurship Lab</a></li><li><a href="programs.html">AgriTech Program</a></li></ul></div>
+    <div class="footer-contact"><h4>Contact</h4><p><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</p><p><i class="fas fa-envelope"></i> iradukundahappy2024@gmail.com</p></div>
+  </div>
+  <div class="footer-bottom container"><p>© 2026 Youth Empowerment Rwanda. All Rights Reserved.</p><p>Made with <span class="heart">❤</span> in Kigali</p></div>
+</footer>
+
+<button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+
+<script src="c:\Users\Happy\Desktop\Frontend Exam\files\jsfiles\main.js"></script>
+<script>
+  // Tab switching
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabContents.forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

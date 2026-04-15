@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery | Youth Empowerment Rwanda</title>
+  <link rel="stylesheet" href="c:\Users\Happy\Desktop\Frontend Exam\files\cssfiles\style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .filter-bar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:40px; }
+    .filter-btn { padding:8px 22px; border-radius:50px; border:2px solid var(--border); background:none; font-family:var(--font-body); font-size:0.88rem; font-weight:600; color:var(--text-muted); cursor:pointer; transition:var(--transition); }
+    .filter-btn.active, .filter-btn:hover { border-color:var(--primary); background:var(--primary); color:#fff; }
+
+    .gallery-grid { display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; }
+    .gallery-item { border-radius:var(--radius); overflow:hidden; position:relative; cursor:pointer; aspect-ratio:1; }
+    .gallery-item.wide { grid-column:span 2; aspect-ratio:2/1; }
+    .gallery-item.tall { grid-row:span 2; aspect-ratio:1/2; }
+    .gallery-item img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease; }
+    .gallery-item:hover img { transform:scale(1.08); }
+    .gallery-overlay { position:absolute; inset:0; background:rgba(15,23,42,0); transition:var(--transition); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; }
+    .gallery-item:hover .gallery-overlay { background:rgba(15,23,42,0.6); }
+    .gallery-overlay i { color:#fff; font-size:1.8rem; opacity:0; transform:scale(0.5); transition:var(--transition); }
+    .gallery-overlay span { color:#fff; font-size:0.85rem; font-weight:600; opacity:0; transform:translateY(10px); transition:var(--transition) 0.05s; }
+    .gallery-item:hover .gallery-overlay i { opacity:1; transform:scale(1); }
+    .gallery-item:hover .gallery-overlay span { opacity:1; transform:translateY(0); }
+
+    /* Lightbox */
+    .lightbox { position:fixed; inset:0; background:rgba(0,0,0,0.95); z-index:3000; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.3s; }
+    .lightbox.active { opacity:1; pointer-events:all; }
+    .lightbox-img { max-width:90vw; max-height:90vh; border-radius:var(--radius); box-shadow:0 24px 80px rgba(0,0,0,0.5); transform:scale(0.8); transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+    .lightbox.active .lightbox-img { transform:scale(1); }
+    .lightbox-close { position:absolute; top:24px; right:24px; background:rgba(255,255,255,0.1); border:none; color:#fff; width:48px; height:48px; border-radius:50%; font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:var(--transition); }
+    .lightbox-close:hover { background:rgba(255,255,255,0.2); }
+    .lb-prev, .lb-next { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.1); border:none; color:#fff; width:52px; height:52px; border-radius:50%; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:var(--transition); }
+    .lb-prev:hover, .lb-next:hover { background:var(--primary); }
+    .lb-prev { left:24px; }
+    .lb-next { right:24px; }
+    .lightbox-caption { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.7); font-size:0.9rem; text-align:center; }
+
+    @media(max-width:1024px){ .gallery-grid{grid-template-columns:repeat(3,1fr);} }
+    @media(max-width:768px){ .gallery-grid{grid-template-columns:repeat(2,1fr);} .gallery-item.wide,.gallery-item.tall{grid-column:span 1;grid-row:span 1;aspect-ratio:1;} }
+    @media(max-width:480px){ .gallery-grid{grid-template-columns:1fr 1fr;gap:8px;} }
+  </style>
+</head>
+<body>
+
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo" style="color:var(--text)"><span class="logo-icon">✦</span><span class="logo-text">YE<span class="accent">Rwanda</span></span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="c:\Users\Happy\Desktop\Frontend Exam\files\index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="programs.html">Programs</a></li><li><a href="gallery.html" class="active">Gallery</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon" id="themeIcon"></i></button>
+      <a href="contact.html" class="btn-donate">Get Involved</a>
+    </div>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-bg">
+    <img src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=1600&q=80" alt="Gallery" />
+  </div>
+  <div class="container page-hero-content">
+    <div class="section-label">Our Moments</div>
+    <h1>Photo Gallery</h1>
+    <p>Capturing the energy, growth, and transformation of Rwanda's youth in action.</p>
+    <div class="breadcrumb"><a href="c:\Users\Happy\Desktop\Frontend Exam\files\index.html">Home</a><span>›</span><span>Gallery</span></div>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-filter="all">All Photos</button>
+      <button class="filter-btn" data-filter="events">Events & Summits</button>
+      <button class="filter-btn" data-filter="training">Training Sessions</button>
+      <button class="filter-btn" data-filter="community">Community Work</button>
+      <button class="filter-btn" data-filter="graduation">Graduations</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+      <!-- Row 1 -->
+      <div class="gallery-item wide" data-cat="events">
+        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=900&q=80" alt="Annual Summit 2024" />
+        <div class="gallery-overlay"><i class="fas fa-expand"></i><span>Annual Summit 2024</span></div>
+      </div>
+      <div class="gallery-item" data-cat="training">
+        <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\im 12.jpg" alt="Digital Skills Training" />
+        <div class="gallery-overlay"><i class="fas fa-expand"></i><span>Digital Skills Training</span></div>
+      </div>
+      <div class="gallery-item" data-cat="community">
+        <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\im 13.jpg" alt="Community Outreach" />
+        <div class="gallery-overlay"><i class="fas fa-expand"></i><span>Community Outreach</span></div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="gallery-item" data-cat="training">
+        <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\Youth-leaders-take-part-in-capacity-building-workshop-in-the-Kigali-Community-Peace-Centre-at-the-Kigali-Genocide-Memorial-1-4-May-2025.jpg" alt="Leadership Workshop" />
+        <div class="gallery-overlay"><i class="fas fa-expand"></i><span>Leadership Workshop</span></div>
+      </div>
+      <div class="gallery-item" data-cat="graduation">
+        <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\3-1n7a5069-enhanced-nr-001-07d74.jpg" alt="Graduation Ceremony" />
+        <div class="gallery-overlay"><i class="fas fa-expand"></i><span>Graduation 2023</span></div>
+      </div>
+      <div class="gallery-item wide" data-cat="events">
+        <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=900&q=80" alt="Youth Conference" />
+        <div class="gallery-overlay"><i class="fas fa-expand"></i><span>Youth Conference</span></div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="gallery-item" data-cat="community">
+        <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\im 13.jpg" alt="Field Trip" />
+        <div class="gallery-overlay"><i class="fas fa-expand"></i><span>AgriTech Field Day</span></div>
+      </div>
+      <div class="gallery-item" data-cat="training">
+        <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\im14.jpeg" alt="Classroom" />
+        <div class="gallery-overlay"><i class="fas fa-expand"></i><span>Entrepreneurship Session</span></div>
+      </div>
+      <div class="gallery-item" data-cat="graduation">
+        <img src="https://images.unsplash.com/photo-1627556704302-624286467c65?w=600&q=80" alt="Certificates" />
+        <div class="gallery-overlay"><i class="fas fa-expand"></i><span>Certificate Ceremony</span></div>
+      </div>
+      <div class="gallery-item" data-cat="community">
+        <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\im 9.jpg" alt="Volunteering" />
+        <div class="gallery-overlay"><i class="fas fa-expand"></i><span>Community Clean-Up</span></div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="gallery-item wide" data-cat="training">
+        <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\leaders.jpg" alt="Team Training" />
+        <div class="gallery-overlay"><i class="fas fa-expand"></i><span>Team Leadership Training</span></div>
+      </div>
+      <div class="gallery-item" data-cat="events">
+        <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\pan.jpg" alt="Panel" />
+        <div class="gallery-overlay"><i class="fas fa-expand"></i><span>Panel Discussion</span></div>
+      </div>
+      <div class="gallery-item" data-cat="community">
+        <img src="c:\Users\Happy\Desktop\Frontend Exam\files\images\m.jpg" alt="Mentorship" />
+        <div class="gallery-overlay"><i class="fas fa-expand"></i><span>Mentorship Session</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose"><i class="fas fa-times"></i></button>
+  <button class="lb-prev" id="lbPrev"><i class="fas fa-chevron-left"></i></button>
+  <img src="" alt="" class="lightbox-img" id="lbImg" />
+  <button class="lb-next" id="lbNext"><i class="fas fa-chevron-right"></i></button>
+  <div class="lightbox-caption" id="lbCaption"></div>
+</div>
+
+<footer class="footer">
+  <div class="footer-main container">
+    <div class="footer-brand"><a href="index.html" class="logo footer-logo"><span class="logo-icon">✦</span><span class="logo-text">YE<span class="accent">Rwanda</span></span></a><p>Empowering Rwanda's youth since 2015.</p><div class="social-links"><a href="#"><i class="fab fa-facebook-f"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-instagram"></i></a></div></div>
+    <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="c:\Users\Happy\Desktop\Frontend Exam\files\index.html">Home</a></li><li><a href="about.html">About</a></li><li><a href="programs.html">Programs</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-links"><h4>Programs</h4><ul><li><a href="programs.html">Digital Skills Hub</a></li><li><a href="programs.html">Leadership Academy</a></li><li><a href="programs.html">Entrepreneurship Lab</a></li></ul></div>
+    <div class="footer-contact"><h4>Contact</h4><p><i class="fas fa-map-marker-alt"></i> Kigali, Rwanda</p><p><i class="fas fa-envelope"></i> iradukundahappy2024@gmail.com</p></div>
+  </div>
+  <div class="footer-bottom container"><p>© 2026 Youth Empowerment Rwanda.</p><p>Made with <span class="heart">❤</span> in Kigali</p></div>
+</footer>
+
+<button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+
+<script src="c:\Users\Happy\Desktop\Frontend Exam\files\jsfiles\main.js"></script>
+<script>
+  // Gallery filter
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const items = document.querySelectorAll('.gallery-item');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      items.forEach(item => {
+        const show = filter === 'all' || item.dataset.cat === filter;
+        item.style.display = show ? '' : 'none';
+      });
+    });
+  });
+
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbCaption = document.getElementById('lbCaption');
+  let currentIndex = 0;
+  let visibleItems = [];
+
+  function openLightbox(index) {
+    visibleItems = [...document.querySelectorAll('.gallery-item:not([style*="none"]) img')];
+    currentIndex = index;
+    lbImg.src = visibleItems[currentIndex].src;
+    lbCaption.textContent = visibleItems[currentIndex].alt;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  items.forEach((item, i) => {
+    item.addEventListener('click', () => {
+      const visArr = [...document.querySelectorAll('.gallery-item:not([style*="none"])')];
+      openLightbox(visArr.indexOf(item));
+    });
+  });
+
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + visibleItems.length) % visibleItems.length;
+    lbImg.src = visibleItems[currentIndex].src;
+    lbCaption.textContent = visibleItems[currentIndex].alt;
+  });
+  document.getElementById('lbNext').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % visibleItems.length;
+    lbImg.src = visibleItems[currentIndex].src;
+    lbCaption.textContent = visibleItems[currentIndex].alt;
+  });
+
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') document.getElementById('lbPrev').click();
+    if (e.key === 'ArrowRight') document.getElementById('lbNext').click();
+  });
+</script>
+</body>
+</html>
